@@ -224,7 +224,6 @@ class Login extends CI_Controller {
 	
 	}
 	
-	
 		public function insert_user()
 	{
 		
@@ -233,7 +232,7 @@ class Login extends CI_Controller {
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('email', 'Email', 'required|is_unique[savsoft_users.email]');
 		$this->form_validation->set_rules('studentCode', 'Student Code', 'required|is_unique[savsoft_users.student_code]');
-        $this->form_validation->set_rules('password', 'Password', 'required');
+        $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]|alpha_numeric');
           if ($this->form_validation->run() == FALSE)
                 {
                      $this->session->set_flashdata('message', "<div class='alert alert-danger'>".validation_errors()." </div>");
