@@ -303,7 +303,7 @@ if(count($qcl)==0){
 					 <span id="no_q_available"></span>
 					 
 					 <br>
-<?php echo $this->lang->line('correct_score');?> <input type="text" name="i_correct[]" style="width:40px;" value="1"> | <?php echo $this->lang->line('incorrect_score');?><input type="text" style="width:40px;" name="i_incorrect[]" value="0"> 
+<?php echo $this->lang->line('correct_score');?> <input type="text" name="i_correct[]" style="width:40px;" value="1"> | <?php echo $this->lang->line('incorrect_score');?> <input type="text" style="width:40px;" name="i_incorrect[]" value="0"> 
 
 			</div>
 

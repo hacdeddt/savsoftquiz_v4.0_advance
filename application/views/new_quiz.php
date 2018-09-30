@@ -64,8 +64,8 @@
 			</div>
 				<div class="form-group">	 
 					<label for="inputEmail" ><?php echo $this->lang->line('view_answer');?></label> <br>
-					<input type="radio" name="view_answer"    value="1" checked > <?php echo $this->lang->line('yes');?>&nbsp;&nbsp;&nbsp;
-					<input type="radio" name="view_answer"    value="0"  > <?php echo $this->lang->line('no');?>
+					<input type="radio" name="view_answer"    value="1"  > <?php echo $this->lang->line('yes');?>&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="view_answer"    value="0" checked > <?php echo $this->lang->line('no');?>
 			</div>
 				<div class="form-group">	 
 					<label for="inputEmail" ><?php echo $this->lang->line('open_quiz');?></label> <br>
