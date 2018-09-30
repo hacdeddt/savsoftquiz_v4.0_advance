@@ -44,7 +44,7 @@
 			</div>
 				<div class="form-group">	 
 					<label for="inputEmail"  ><?php echo $this->lang->line('maximum_attempts');?></label> 
-					<input type="text" name="maximum_attempts"  value="10" class="form-control" placeholder="<?php echo $this->lang->line('maximum_attempts');?>"   required >
+					<input type="text" name="maximum_attempts"  value="1" class="form-control" placeholder="<?php echo $this->lang->line('maximum_attempts');?>"   required >
 			</div>
 				<div class="form-group">	 
 					<label for="inputEmail"  ><?php echo $this->lang->line('pass_percentage');?></label> 
