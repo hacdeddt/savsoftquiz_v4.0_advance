@@ -83,7 +83,6 @@ window.location="<?php echo site_url('quiz/submit_quiz/');?>";
 <div class="save_answer_signal" id="save_answer_signal1"></div>
 
 <div style="float:right;width:150px; margin-right:10px;" >
-
 	Time left: <span id='timer' >
 	<script type="text/javascript">window.onload = CreateTimer("timer", <?php echo $seconds;?>);</script>
 </span>
@@ -129,7 +128,7 @@ if(count($categories) > 1 ){
 </div> 
 
    
- 
+ <br>
  <div class="row"  style="margin-top:5px;">
  <div class="col-md-8">
 <form method="post" action="<?php echo site_url('quiz/submit_quiz/'.$quiz['rid']);?>" id="quiz_form" >

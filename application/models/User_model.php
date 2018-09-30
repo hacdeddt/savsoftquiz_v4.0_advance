@@ -265,6 +265,7 @@ return $revenue;
 		 $search=$this->input->post('search');
 		 $this->db->or_where('savsoft_users.uid',$search);
 		 $this->db->or_where('savsoft_users.email',$search);
+		 $this->db->or_where('savsoft_users.student_code',$search);
 		 $this->db->or_where('savsoft_users.first_name',$search);
 		 $this->db->or_where('savsoft_users.last_name',$search);
 		 $this->db->or_where('savsoft_users.contact_no',$search);

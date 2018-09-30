@@ -103,7 +103,7 @@
 					<label   ><?php echo $this->lang->line('quiz_template');?></label> <br>
 					<select name="quiz_template">
 					<option value="Default">Default</option>
-					<option value="Advance">Advance</option>
+					<!-- <option value="Advance">Advance</option> -->
 					
 					</select>
 </div>

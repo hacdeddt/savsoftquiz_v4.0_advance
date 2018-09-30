@@ -118,7 +118,7 @@
 					<label   ><?php echo $this->lang->line('quiz_template');?></label> <br>
 					<select name="quiz_template">
 					<option value="Default" <?php if($quiz['quiz_template']=="Default"){ echo 'selected';} ?> >Default</option>
-					<option value="Advance"  <?php if($quiz['quiz_template']=="Advance"){ echo 'selected';} ?> >Advance</option>
+					<!-- <option value="Advance"  <?php if($quiz['quiz_template']=="Advance"){ echo 'selected';} ?> >Advance</option> -->
 					
 					</select>
 </div>
