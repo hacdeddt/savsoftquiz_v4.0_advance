@@ -53,7 +53,7 @@
 					foreach($group_list as $key => $val){
 						?>
 						
-						<option value="<?php echo $val['gid'];?>"><?php echo $val['group_name'];?> (<?php echo $this->lang->line('price_');?>: <?php echo $val['price'];?>)</option>
+						<option value="<?php echo $val['gid'];?>"><?php echo $val['group_name'];?></option>
 						<?php 
 					}
 					?>
@@ -61,7 +61,7 @@
 			</div>
 			<div class="form-group">	 
 					<label for="inputEmail"  ><?php echo $this->lang->line('subscription_expired');?></label> 
-					<input type="text" name="subscription_expired"  id="subscription_expired" class="form-control" placeholder="<?php echo $this->lang->line('subscription_expired');?>"    autofocus>
+					<input type="text" name="subscription_expired" class="form-control" value="<?php      $time = time()+157680000; echo date('Y-m-d H:i:s',$time); ?>">
 			</div>
 
 				<div class="form-group">	 

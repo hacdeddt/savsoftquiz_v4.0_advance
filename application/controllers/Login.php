@@ -111,8 +111,6 @@ class Login extends CI_Controller {
 			$user=$status['user'];
 			
 			
-			// validate if user assigned to paid group
-			if($user['price'] > '0'){
 				
 				// user assigned to paid group now validate expiry date.
 				if($user['subscription_expired'] <= time()){
@@ -122,7 +120,6 @@ class Login extends CI_Controller {
 					
 				}
 				
-			}
 			$user['base_url']=base_url();
 			// creating login cookie
 			$this->session->set_userdata('logged_in', $user);
