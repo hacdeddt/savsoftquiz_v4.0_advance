@@ -13,7 +13,7 @@
 
 	<div class="login-panel panel panel-default">
 		<div class="panel-body"> 
-		<img src="<?php echo base_url('images/logo.png');?>">
+		<span style="font-size: 24px;color: blue;">Quiz Exam Online </span>
 		
 
 			<form method="post" class="form-signin" action="<?php echo site_url('login/forgot');?>">
