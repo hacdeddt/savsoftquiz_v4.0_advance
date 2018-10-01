@@ -15,7 +15,7 @@
 	<div class="login-panel panel panel-default">
 		<div class="panel-body"> 
 		<center>
-		<a href="<?php echo base_url();?>"><img src="<?php echo base_url('images/logo.png');?>"></a><br>
+		<h5 style="font-size: 24px;color: blue;">Quiz Exam Online</h5>
 <?php echo $this->lang->line('login_tagline');?>
 		</center>
 

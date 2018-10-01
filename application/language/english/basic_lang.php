@@ -1,5 +1,5 @@
 <?php 
-$lang['savsoft_quiz'] = "Savsoft Quiz v4.0";
+$lang['savsoft_quiz'] = "Quiz Exam Online";
 $lang['installation_process'] = "Installation Process";
 $lang['installation_completed'] = "Installation Completed. Visit base URL {base_url} to login.<br><br>Default login info:<br> Email: admin@example.com <br>Password: admin<br><br>For more information or customization visit <a href='http://savsoftquiz.com/'>www.SavsoftQuiz.com/</a> ";
 $lang['installation_failed'] = "Installation Failed";

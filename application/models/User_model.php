@@ -347,7 +347,7 @@ return $revenue;
 		'gid'=>$this->input->post('gid'),
 		'su'=>'0'		
 		);
-		$veri_code=rand('1111','9999');
+		$veri_code=rand('111110','999999');
 		 if($this->config->item('verify_email')){
 			$userdata['verify_code']=$veri_code;
 		 }
