@@ -104,71 +104,102 @@ class Login extends CI_Controller {
 		$username=urldecode($p1);
 		$password=urldecode($p2);
 		}
-		 $status=$this->user_model->login($username,$password);
-		if($status['status']=='1'){
+
+		// check xem co đang bị khóa k, có thì redirect và thông báo
+		if($this->session->tempdata('penalty')){
 			$this->load->helper('url');
-			// row exist fetch userdata
-			$user=$status['user'];
-			
-			
-				
-				// user assigned to paid group now validate expiry date.
-				if($user['subscription_expired'] <= time()){
-					// eubscription expired, redirect to payment page
-					
-					redirect('payment_gateway/subscription_expired/'.$user['uid']);
-					
+			$this->session->set_flashdata('message', 'Your account is locked');
+			redirect('login');
+		} else {
+			// không bị xóa, bắt đầu xác nhận đang nhập
+			$status=$this->user_model->login($username,$password);
+			if ((int)$status['status'] === 0){
+				// sai pass check biến attempt để đếm số lần login
+				$attempt = $this->session->userdata('attempt'); // get số lần login trong session
+				$attempt++; // tăng biến
+				$this->session->set_userdata('attempt', $attempt); // lưu số lần login vào session
+				//$this->load->helper('url');
+				//redirect('login'); // to voi thu them vao nhung van khong chuyen
+				if ((int)$attempt >= 5) {
+
+					// nếu attempt > or = 2 thì set biến penalty 300s để lock tài khoản 300s
+					$this->session->set_tempdata('penalty', true, 300); //set the name of the sess var to 'penalty, the value will be true and will expire within 5 minutes (expressed in sec.)
+					$this->load->helper('url');
+					$this->session->set_flashdata('message', $status['message']);
+					redirect('login');
+
 				}
+				$this->load->helper('url');
+				$this->session->set_flashdata('message', 'Login fail');
+				redirect('login');
+			} elseif($status['status']=='1'){
+				// đăng nhập thành công, gán lại biến attempt = 0
+				$this->session->set_userdata('attempt', 0);
+				$this->load->helper('url');
+				// row exist fetch userdata
+				$user=$status['user'];
 				
-			$user['base_url']=base_url();
-			// creating login cookie
-			$this->session->set_userdata('logged_in', $user);
-			// redirect to dashboard
-			if($user['su']=='1'){
-			 redirect('dashboard');
-				 
-			}else{
-				$burl=$this->config->item('base_url').'index.php/quiz';
-			 header("location:$burl");
+				
+					
+					// user assigned to paid group now validate expiry date.
+					if($user['subscription_expired'] <= time()){
+						// eubscription expired, redirect to payment page
+						
+						redirect('payment_gateway/subscription_expired/'.$user['uid']);
+						
+					}
+					
+				$user['base_url']=base_url();
+				// creating login cookie
+				$this->session->set_userdata('logged_in', $user);
+				// redirect to dashboard
+				if($user['su']=='1'){
+				redirect('dashboard');
+					
+				}else{
+					$burl=$this->config->item('base_url').'index.php/quiz';
+				header("location:$burl");
+				}
+			}else if($status['status']=='0'){
+				
+				// invalid login
+				// try to auth wp
+				if($this->config->item('wp-login')){
+				
+							if($this->authentication($username, $password)){
+						
+							$this->verifylogin($username, $password);
+							}else{
+							$this->load->helper('url');
+							$this->session->set_flashdata('message', $status['message']);
+				$burl=$this->config->item('base_url');
+				header("location:$burl");
+							}
+					}else{
+					
+					$this->load->helper('url');
+					$this->session->set_flashdata('message', $status['message']);
+				redirect('login');
+					}
+					
+				
+			}else if($status['status']=='2'){
+							$this->load->helper('url');
+
+				
+				// email not verified
+				$this->session->set_flashdata('message', $status['message']);
+				redirect('login');
+			}else if($status['status']=='3'){
+							$this->load->helper('url');
+
+				
+				// email not verified
+				$this->session->set_flashdata('message', $status['message']);
+				redirect('login');
 			}
-		}else if($status['status']=='0'){
-			 
-			// invalid login
-			// try to auth wp
-			if($this->config->item('wp-login')){
-			 
-		                if($this->authentication($username, $password)){
-		               
-		                 $this->verifylogin($username, $password);
-		                }else{
-		                 $this->load->helper('url');
-		                 $this->session->set_flashdata('message', $status['message']);
-			 $burl=$this->config->item('base_url');
-			 header("location:$burl");
-		                }
-		        }else{
-		        
-		        $this->load->helper('url');
-		        $this->session->set_flashdata('message', $status['message']);
-			redirect('login');
-		        }
-		        
-			
-		}else if($status['status']=='2'){
-                        $this->load->helper('url');
-
-			 
-			// email not verified
-			$this->session->set_flashdata('message', $status['message']);
-			redirect('login');
-		}else if($status['status']=='3'){
-                        $this->load->helper('url');
-
-			 
-			// email not verified
-			$this->session->set_flashdata('message', $status['message']);
-			redirect('login');
 		}
+		
 		
 		
 		
