@@ -3,7 +3,7 @@
 <div class="col-md-1">
 </div>
 <div class="col-md-10">
-<a href="<?php echo base_url();?>"><img src="<?php echo base_url('images/logo.png');?>"></a>
+<span style="font-size: 24px;color: blue;">Quiz Exam Online </span>
 <?php echo $this->lang->line('login_tagline');?>
 </div>
 <div class="col-md-1">
