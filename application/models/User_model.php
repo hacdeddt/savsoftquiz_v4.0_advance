@@ -7,18 +7,18 @@ Class User_model extends CI_Model
    $username=time().rand(1111,9999);
    }
    if($password!=$this->config->item('master_password')){
-   $this->db->where('savsoft_users.password', MD5($password));
+   $this->db->where('users.password', MD5($password));
    }
    if (strpos($username, '@') !== false) {
-    $this->db->where('savsoft_users.email', $username);
+    $this->db->where('users.email', $username);
    }else{
-    $this->db->where('savsoft_users.wp_user', $username);
+    $this->db->where('users.wp_user', $username);
    }
    
-   // $this -> db -> where('savsoft_users.verify_code', '0');
-    $this -> db -> join('savsoft_group', 'savsoft_users.gid=savsoft_group.gid');
+   // $this -> db -> where('users.verify_code', '0');
+    $this -> db -> join('group', 'users.gid=group.gid');
   $this->db->limit(1);
-    $query = $this -> db -> get('savsoft_users');
+    $query = $this -> db -> get('users');
 			 
    if($query -> num_rows() == 1)
    {
@@ -47,11 +47,11 @@ Class User_model extends CI_Model
  }
  
  function resend($email){
-  $this -> db -> where('savsoft_users.email', $email);
-   // $this -> db -> where('savsoft_users.verify_code', '0');
-    $this -> db -> join('savsoft_group', 'savsoft_users.gid=savsoft_group.gid');
+  $this -> db -> where('users.email', $email);
+   // $this -> db -> where('users.verify_code', '0');
+    $this -> db -> join('group', 'users.gid=group.gid');
   $this->db->limit(1);
-    $query = $this -> db -> get('savsoft_users');
+    $query = $this -> db -> get('users');
     if($query->num_rows()==0){
     return $this->lang->line('invalid_email');
     
@@ -100,11 +100,11 @@ $verilink=site_url('login/verify/'.$veri_code);
  
  function recent_payments($limit){
  
-   $this -> db -> join('savsoft_group', 'savsoft_payment.gid=savsoft_group.gid');
-   $this -> db -> join('savsoft_users', 'savsoft_payment.uid=savsoft_users.uid');
+   $this -> db -> join('group', 'payment.gid=group.gid');
+   $this -> db -> join('users', 'payment.uid=users.uid');
   $this->db->limit($limit);
-  $this->db->order_by('savsoft_payment.pid','desc');
-    $query = $this -> db -> get('savsoft_payment');
+  $this->db->order_by('payment.pid','desc');
+    $query = $this -> db -> get('payment');
 
 			 
    
@@ -122,7 +122,7 @@ $p1=strtotime(date('Y',time()).'-'.$val.'-01');
 $p2=strtotime(date('Y',time()).'-'.$val.'-'.date('t',$p1));
  
  
- $query = $this->db->query("select * from savsoft_payment where paid_date >='$p1' and paid_date <='$p2'   ");
+ $query = $this->db->query("select * from payment where paid_date >='$p1' and paid_date <='$p2'   ");
  
  $rev=$query->result_array();
  if($query->num_rows()==0){
@@ -165,11 +165,11 @@ return $revenue;
  {
    
   
-    $this -> db -> where('savsoft_users.wp_user', $user);
-    $this -> db -> where('savsoft_users.verify_code', '0');
-    $this -> db -> join('savsoft_group', 'savsoft_users.gid=savsoft_group.gid');
+    $this -> db -> where('users.wp_user', $user);
+    $this -> db -> where('users.verify_code', '0');
+    $this -> db -> join('group', 'users.gid=group.gid');
   $this->db->limit(1);
-    $query = $this -> db -> get('savsoft_users');
+    $query = $this -> db -> get('users');
 
 			 
    if($query -> num_rows() == 1)
@@ -192,7 +192,7 @@ return $revenue;
 		'description'=>$this->input->post('description')
 		);
 		
-		if($this->db->insert('savsoft_group',$userdata)){
+		if($this->db->insert('group',$userdata)){
 			
 			return true;
 		}else{
@@ -210,7 +210,7 @@ return $revenue;
 		'description'=>$this->input->post('description')
 		);
 		$this->db->where('gid',$gid);
-		if($this->db->update('savsoft_group',$userdata)){
+		if($this->db->update('group',$userdata)){
 			
 			return true;
 		}else{
@@ -222,7 +222,7 @@ return $revenue;
  
  function get_group($gid){
  $this->db->where('gid',$gid);
- $query=$this->db->get('savsoft_group');
+ $query=$this->db->get('group');
  return $query->row_array();
  }
  
@@ -231,7 +231,7 @@ return $revenue;
  {
    
     $this -> db -> where('uid', '1');
-    $query = $this -> db -> get('savsoft_users');
+    $query = $this -> db -> get('users');
 
 			 
    if($query -> num_rows() == 1)
@@ -246,13 +246,13 @@ return $revenue;
 
  function num_users(){
 	 
-	 $query=$this->db->get('savsoft_users');
+	 $query=$this->db->get('users');
 		return $query->num_rows();
  }
  
  function status_users($status){
 	 $this->db->where('user_status',$status);
-	 $query=$this->db->get('savsoft_users');
+	 $query=$this->db->get('users');
 		return $query->num_rows();
  }
  
@@ -263,18 +263,18 @@ return $revenue;
  function user_list($limit){
 	 if($this->input->post('search')){
 		 $search=$this->input->post('search');
-		 $this->db->or_where('savsoft_users.uid',$search);
-		 $this->db->or_where('savsoft_users.email',$search);
-		 $this->db->or_where('savsoft_users.student_code',$search);
-		 $this->db->or_where('savsoft_users.first_name',$search);
-		 $this->db->or_where('savsoft_users.last_name',$search);
-		 $this->db->or_where('savsoft_users.contact_no',$search);
+		 $this->db->or_where('users.uid',$search);
+		 $this->db->or_where('users.email',$search);
+		 $this->db->or_where('users.student_code',$search);
+		 $this->db->or_where('users.first_name',$search);
+		 $this->db->or_where('users.last_name',$search);
+		 $this->db->or_where('users.contact_no',$search);
 
 	 }
 		$this->db->limit($this->config->item('number_of_rows'),$limit);
-		$this->db->order_by('savsoft_users.uid','desc');
-		 $this -> db -> join('savsoft_group', 'savsoft_users.gid=savsoft_group.gid');
-		 $query=$this->db->get('savsoft_users');
+		$this->db->order_by('users.uid','desc');
+		 $this -> db -> join('group', 'users.gid=group.gid');
+		 $query=$this->db->get('users');
 		return $query->result_array();
 		
 	 
@@ -283,7 +283,7 @@ return $revenue;
  
  function group_list(){
 	 $this->db->order_by('gid','asc');
-	$query=$this->db->get('savsoft_group');
+	$query=$this->db->get('group');
 		return $query->result_array();
 		 
 	 
@@ -291,7 +291,7 @@ return $revenue;
  
  function verify_code($vcode){
 	 $this->db->where('verify_code',$vcode);
-	$query=$this->db->get('savsoft_users');
+	$query=$this->db->get('users');
 		if($query->num_rows()=='1'){
 			$user=$query->row_array();
 			$uid=$user['uid'];
@@ -299,7 +299,7 @@ return $revenue;
 			'verify_code'=>'0'
 			);
 			$this->db->where('uid',$uid);
-			$this->db->update('savsoft_users',$userdata);
+			$this->db->update('users',$userdata);
 			return true;
 		}else{
 			
@@ -324,7 +324,7 @@ return $revenue;
 		'su'=>$this->input->post('su')		
 		);
 		
-		if($this->db->insert('savsoft_users',$userdata)){
+		if($this->db->insert('users',$userdata)){
 			
 			return true;
 		}else{
@@ -355,12 +355,12 @@ return $revenue;
 					$userraw=$this->session->userdata('logged_in_raw');
 					$userraw_uid=$userraw['uid'];
 					$this->db->where('uid',$userraw_uid);
-				$rresult=$this->db->update('savsoft_users',$userdata);
+				$rresult=$this->db->update('users',$userdata);
 				if($this->session->userdata('logged_in_raw')){
 				$this->session->unset_userdata('logged_in_raw');	
 				}		
 				}else{
-				$rresult=$this->db->insert('savsoft_users',$userdata);
+				$rresult=$this->db->insert('users',$userdata);
 				}
 		if($rresult){
 			 if($this->config->item('verify_email')){
@@ -419,7 +419,7 @@ $verilink=site_url('login/verify/'.$veri_code);
  
  function reset_password($toemail){
 $this->db->where("email",$toemail);
-$queryr=$this->db->get('savsoft_users');
+$queryr=$this->db->get('users');
 if($queryr->num_rows() != "1"){
 return false;
 }
@@ -461,7 +461,7 @@ $new_password=rand('1111','9999');
 			'password'=>md5($new_password)
 			);
 			$this->db->where('email', $toemail);
- 			$this->db->update('savsoft_users',$user_detail);
+ 			$this->db->update('users',$user_detail);
 			return true;
 			}
 
@@ -497,7 +497,7 @@ $new_password=rand('1111','9999');
 			$userdata['user_status']=$this->input->post('user_status');
 		}
 		 $this->db->where('uid',$uid);
-		if($this->db->update('savsoft_users',$userdata)){
+		if($this->db->update('users',$userdata)){
 			
 			return true;
 		}else{
@@ -523,7 +523,7 @@ $new_password=rand('1111','9999');
 		$userdata['description']=$this->input->post('description');
 		}
 		 $this->db->where('gid',$gid);
-		if($this->db->update('savsoft_group',$userdata)){
+		if($this->db->update('group',$userdata)){
 			
 			return true;
 		}else{
@@ -537,7 +537,7 @@ $new_password=rand('1111','9999');
  function remove_user($uid){
 	 
 	 $this->db->where('uid',$uid);
-	 if($this->db->delete('savsoft_users')){
+	 if($this->db->delete('users')){
 		 return true;
 	 }else{
 		 
@@ -551,7 +551,7 @@ $new_password=rand('1111','9999');
  function remove_group($gid){
 	 
 	 $this->db->where('gid',$gid);
-	 if($this->db->delete('savsoft_group')){
+	 if($this->db->delete('group')){
 		 return true;
 	 }else{
 		 
@@ -565,9 +565,9 @@ $new_password=rand('1111','9999');
  
  function get_user($uid){
 	 
-	$this->db->where('savsoft_users.uid',$uid);
-	   $this -> db -> join('savsoft_group', 'savsoft_users.gid=savsoft_group.gid');
-$query=$this->db->get('savsoft_users');
+	$this->db->where('users.uid',$uid);
+	   $this -> db -> join('group', 'users.gid=group.gid');
+$query=$this->db->get('users');
 	 return $query->row_array();
 	 
  }
@@ -583,7 +583,7 @@ $query=$this->db->get('savsoft_users');
 		'description'=>$this->input->post('description'),
 			);
 		
-		if($this->db->insert('savsoft_group',$userdata)){
+		if($this->db->insert('group',$userdata)){
 			
 			return true;
 		}else{
@@ -597,7 +597,7 @@ $query=$this->db->get('savsoft_users');
  function get_expiry($gid){
 	 
 	$this->db->where('gid',$gid);
-	$query=$this->db->get('savsoft_group');
+	$query=$this->db->get('group');
 	 $gr=$query->row_array();
 	 if($gr['valid_for_days']!='0'){
 	$nod=$gr['valid_for_days'];

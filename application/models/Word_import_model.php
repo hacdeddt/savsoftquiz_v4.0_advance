@@ -102,7 +102,7 @@ $corect_position=array(
 	'question_type' => $ques_type2 
 	);
 	
-	if($this->db->insert('savsoft_qbank',$insert_data)){
+	if($this->db->insert('qbank',$insert_data)){
 		$qid=$this->db->insert_id();
 		$optionkeycounter = 4;
 		if($ques_type=="0" || $ques_type=="1"){
@@ -129,7 +129,7 @@ $correctoption = 0;
 				"q_option" => $correct_val,
 				"score" => $correctoption
 				);
-				$this->db->insert("savsoft_options",$insert_options);
+				$this->db->insert("options",$insert_options);
 				
 				
 			

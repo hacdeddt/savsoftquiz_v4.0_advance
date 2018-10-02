@@ -55,7 +55,7 @@ class Notification extends CI_Controller {
 	 );
 	 }
 	$this->db->where('uid',$uid);
-	$this->db->update('savsoft_users',$userdata);
+	$this->db->update('users',$userdata);
 	
 	}
 	

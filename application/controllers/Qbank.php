@@ -493,7 +493,7 @@ class Qbank extends CI_Controller {
 			} 
 			
 			$mcid=$this->input->post('mcid');
-$this->db->query(" update savsoft_qbank set cid='$mcid' where cid='$cid' ");
+$this->db->query(" update qbank set cid='$mcid' where cid='$cid' ");
 
 
 			if($this->qbank_model->remove_category($cid)){
@@ -605,7 +605,7 @@ $this->db->query(" update savsoft_qbank set cid='$mcid' where cid='$cid' ");
 				exit($this->lang->line('permission_denied'));
 			} 
 $mlid=$this->input->post('mlid');
-$this->db->query(" update savsoft_qbank set lid='$mlid' where lid='$lid' ");
+$this->db->query(" update qbank set lid='$mlid' where lid='$lid' ");
  			
 			if($this->qbank_model->remove_level($lid)){
                         $this->session->set_flashdata('message', "<div class='alert alert-success'>".$this->lang->line('removed_successfully')." </div>");

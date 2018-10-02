@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 22, 2017 at 05:26 AM
+-- Generation Time: Aug 22, 2018 at 05:26 AM
 -- Server version: 10.1.9-MariaDB
 -- PHP Version: 7.0.1
 
@@ -22,66 +22,12 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `ci_sessions`
---
-
-CREATE TABLE `ci_sessions` (
-  `id` varchar(40) NOT NULL DEFAULT '0',
-  `ip_address` varchar(45) NOT NULL DEFAULT '0',
-  `data` text NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
 
 --
--- Table structure for table `class_coment`
+-- Table structure for table `answers`
 --
 
-CREATE TABLE `class_coment` (
-  `content_id` int(11) NOT NULL,
-  `generated_time` int(11) NOT NULL,
-  `content` longtext NOT NULL,
-  `content_by` int(11) NOT NULL,
-  `published` int(11) NOT NULL DEFAULT '0',
-  `class_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `class_gid`
---
-
-CREATE TABLE `class_gid` (
-  `clgid` int(11) NOT NULL,
-  `class_id` int(11) NOT NULL,
-  `gid` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `live_class`
---
-
-CREATE TABLE `live_class` (
-  `class_id` int(11) NOT NULL,
-  `class_name` varchar(1000) NOT NULL,
-  `initiated_by` int(11) NOT NULL,
-  `initiated_time` int(11) NOT NULL,
-  `closed_time` int(11) NOT NULL,
-  `content` longtext NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `savsoft_answers`
---
-
-CREATE TABLE `savsoft_answers` (
+CREATE TABLE `answers` (
   `aid` int(11) NOT NULL,
   `qid` int(11) NOT NULL,
   `q_option` text NOT NULL,
@@ -93,29 +39,29 @@ CREATE TABLE `savsoft_answers` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `savsoft_category`
+-- Table structure for table `category`
 --
 
-CREATE TABLE `savsoft_category` (
+CREATE TABLE `category` (
   `cid` int(11) NOT NULL,
   `category_name` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `savsoft_category`
+-- Dumping data for table `category`
 --
 
-INSERT INTO `savsoft_category` (`cid`, `category_name`) VALUES
+INSERT INTO `category` (`cid`, `category_name`) VALUES
 (1, 'General knowledge'),
 (2, 'Math');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `savsoft_group`
+-- Table structure for table `group`
 --
 
-CREATE TABLE `savsoft_group` (
+CREATE TABLE `group` (
   `gid` int(11) NOT NULL,
   `group_name` varchar(1000) NOT NULL,
   `price` float NOT NULL,
@@ -124,10 +70,10 @@ CREATE TABLE `savsoft_group` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `savsoft_group`
+-- Dumping data for table `group`
 --
 
-INSERT INTO `savsoft_group` (`gid`, `group_name`, `price`, `valid_for_days`, `description`) VALUES
+INSERT INTO `group` (`gid`, `group_name`, `price`, `valid_for_days`, `description`) VALUES
 (1, 'AT11', 0, 0, ''),
 (3, 'AT12', 0, 0, ''),
 (4, 'AT13', 0, 0, '');
@@ -135,29 +81,29 @@ INSERT INTO `savsoft_group` (`gid`, `group_name`, `price`, `valid_for_days`, `de
 -- --------------------------------------------------------
 
 --
--- Table structure for table `savsoft_level`
+-- Table structure for table `level`
 --
 
-CREATE TABLE `savsoft_level` (
+CREATE TABLE `level` (
   `lid` int(11) NOT NULL,
   `level_name` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `savsoft_level`
+-- Dumping data for table `level`
 --
 
-INSERT INTO `savsoft_level` (`lid`, `level_name`) VALUES
+INSERT INTO `level` (`lid`, `level_name`) VALUES
 (1, 'Easy'),
 (2, 'Difficult');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `savsoft_notification`
+-- Table structure for table `notification`
 --
 
-CREATE TABLE `savsoft_notification` (
+CREATE TABLE `notification` (
   `nid` int(11) NOT NULL,
   `notification_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `title` varchar(100) DEFAULT NULL,
@@ -171,10 +117,10 @@ CREATE TABLE `savsoft_notification` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `savsoft_options`
+-- Table structure for table `options`
 --
 
-CREATE TABLE `savsoft_options` (
+CREATE TABLE `options` (
   `oid` int(11) NOT NULL,
   `qid` int(11) NOT NULL,
   `q_option` text NOT NULL,
@@ -183,10 +129,10 @@ CREATE TABLE `savsoft_options` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `savsoft_options`
+-- Dumping data for table `options`
 --
 
-INSERT INTO `savsoft_options` (`oid`, `qid`, `q_option`, `q_option_match`, `score`) VALUES
+INSERT INTO `options` (`oid`, `qid`, `q_option`, `q_option_match`, `score`) VALUES
 (46, 6, 'Good Morning', 'Good Night', 0.25),
 (47, 6, 'Honda', 'BMW', 0.25),
 (48, 6, 'Keyboard', 'CPU', 0.25),
@@ -217,10 +163,10 @@ INSERT INTO `savsoft_options` (`oid`, `qid`, `q_option`, `q_option_match`, `scor
 -- --------------------------------------------------------
 
 --
--- Table structure for table `savsoft_payment`
+-- Table structure for table `payment`
 --
 
-CREATE TABLE `savsoft_payment` (
+CREATE TABLE `payment` (
   `pid` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
   `gid` int(11) NOT NULL,
@@ -235,10 +181,10 @@ CREATE TABLE `savsoft_payment` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `savsoft_qbank`
+-- Table structure for table `qbank`
 --
 
-CREATE TABLE `savsoft_qbank` (
+CREATE TABLE `qbank` (
   `qid` int(11) NOT NULL,
   `question_type` varchar(100) NOT NULL DEFAULT 'Multiple Choice Single Answer',
   `question` text NOT NULL,
@@ -252,10 +198,10 @@ CREATE TABLE `savsoft_qbank` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `savsoft_qbank`
+-- Dumping data for table `qbank`
 --
 
-INSERT INTO `savsoft_qbank` (`qid`, `question_type`, `question`, `description`, `cid`, `lid`, `no_time_served`, `no_time_corrected`, `no_time_incorrected`, `no_time_unattempted`) VALUES
+INSERT INTO `qbank` (`qid`, `question_type`, `question`, `description`, `cid`, `lid`, `no_time_served`, `no_time_corrected`, `no_time_incorrected`, `no_time_unattempted`) VALUES
 (1, 'Multiple Choice Single Answer', 'What is the capital of INDIA?', 'New Delhi', 2, 1, 15, 11, 2, 2),
 (3, 'Multiple Choice Multiple Answer', 'What is 2+2=?', '4', 2, 1, 15, 10, 2, 3),
 (6, 'Match the Column', 'Match the Following', '', 1, 1, 10, 5, 1, 4),
@@ -270,10 +216,10 @@ INSERT INTO `savsoft_qbank` (`qid`, `question_type`, `question`, `description`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `savsoft_qcl`
+-- Table structure for table `qcl`
 --
 
-CREATE TABLE `savsoft_qcl` (
+CREATE TABLE `qcl` (
   `qcl_id` int(11) NOT NULL,
   `quid` int(11) NOT NULL,
   `cid` int(11) NOT NULL,
@@ -284,10 +230,10 @@ CREATE TABLE `savsoft_qcl` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `savsoft_qcl`
+-- Dumping data for table `qcl`
 --
 
-INSERT INTO `savsoft_qcl` (`qcl_id`, `quid`, `cid`, `lid`, `noq`, `i_correct`, `i_incorrect`) VALUES
+INSERT INTO `qcl` (`qcl_id`, `quid`, `cid`, `lid`, `noq`, `i_correct`, `i_incorrect`) VALUES
 (71, 2, 1, 1, 3, '1', '0'),
 (72, 2, 3, 1, 1, '1', '0'),
 (73, 2, 2, 1, 1, '1', '0');
@@ -295,10 +241,10 @@ INSERT INTO `savsoft_qcl` (`qcl_id`, `quid`, `cid`, `lid`, `noq`, `i_correct`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `savsoft_quiz`
+-- Table structure for table `quiz`
 --
 
-CREATE TABLE `savsoft_quiz` (
+CREATE TABLE `quiz` (
   `quid` int(11) NOT NULL,
   `quiz_name` varchar(1000) NOT NULL,
   `description` text NOT NULL,
@@ -323,20 +269,20 @@ CREATE TABLE `savsoft_quiz` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `savsoft_quiz`
+-- Dumping data for table `quiz`
 --
-INSERT INTO `savsoft_quiz` (`quid`, `quiz_name`, `description`, `start_date`, `end_date`, `gids`, `qids`, `noq`, `correct_score`, `incorrect_score`, `ip_address`, `duration`, `maximum_attempts`, `pass_percentage`, `view_answer`, `camera_req`, `question_selection`, `gen_certificate`, `certificate_text`, `with_login`, `quiz_template`) VALUES
-(1, 'Sample Quiz', '<p>Sample Quiz Sample Quiz</p>', 1460344840, 1522502169, '3,1', '1,3,12,13', 4, '1', '0', '', 1000, 10, 50, 1, 0, 0, 0, NULL, 1, 'Default'),
-(2, 'Sample Quiz 2', '<p>Sample Quiz 2</p>', 1457687593, 1522502169, '1,3,4', '', 5, '1', '0', '', 100, 10, 50, 1, 0, 1, 1, 'ID: #{result_id}<br>\r\n \r\n<br><br>\r\n<center>\r\n<font style=''font-size:32px;''>Certificate</font><br><br><br>\r\n<h4>This is certified that {first_name}  {last_name} has attempted the quiz ''{quiz_name}'' and obtained {percentage_obtained}% marks.<br>\r\nHis/her result status is {status}<br>\r\n</h4>\r\n\r\n</center>\r\n<br><br><br><br><br><br> \r\n{qr_code}<br>\r\nDate: {generated_date}', 1, 'Default'),
-(3, 'Quiz with advance template', '', 1490966169, 1522502169, '1,3,4', '1,3,6,7', 4, '1,1,1,1', '-0.33,-0.33,-0.33,-0.33', '', 10, 10, 50, 1, 0, 0, 0, NULL, 1, 'Advance');
+INSERT INTO `quiz` (`quid`, `quiz_name`, `description`, `start_date`, `end_date`, `gids`, `qids`, `noq`, `correct_score`, `incorrect_score`, `ip_address`, `duration`, `maximum_attempts`, `pass_percentage`, `view_answer`, `camera_req`, `question_selection`, `gen_certificate`, `certificate_text`, `with_login`, `quiz_template`) VALUES
+(1, 'Sample Quiz', '<p>Sample Quiz Sample Quiz</p>', 1538460392, 1538467592, '3,1', '1,3,12,13', 4, '1', '0', '', 1000, 10, 50, 1, 0, 0, 0, NULL, 1, 'Default'),
+(2, 'Sample Quiz 2', '<p>Sample Quiz 2</p>', 1538460392, 1538467592, '1,3,4', '', 5, '1', '0', '', 100, 10, 50, 1, 0, 1, 1, 'ID: #{result_id}<br>\r\n \r\n<br><br>\r\n<center>\r\n<font style=''font-size:32px;''>Certificate</font><br><br><br>\r\n<h4>This is certified that {first_name}  {last_name} has attempted the quiz ''{quiz_name}'' and obtained {percentage_obtained}% marks.<br>\r\nHis/her result status is {status}<br>\r\n</h4>\r\n\r\n</center>\r\n<br><br><br><br><br><br> \r\n{qr_code}<br>\r\nDate: {generated_date}', 1, 'Default'),
+(3, 'Quiz with advance template', '', 1538460392, 1538467592, '1,3,4', '1,3,6,7', 4, '1,1,1,1', '-0.33,-0.33,-0.33,-0.33', '', 10, 10, 50, 1, 0, 0, 0, NULL, 1, 'Advance');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `savsoft_result`
+-- Table structure for table `result`
 --
 
-CREATE TABLE `savsoft_result` (
+CREATE TABLE `result` (
   `rid` int(11) NOT NULL,
   `quid` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
@@ -359,10 +305,10 @@ CREATE TABLE `savsoft_result` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `savsoft_users`
+-- Table structure for table `users`
 --
 
-CREATE TABLE `savsoft_users` (
+CREATE TABLE `users` (
   `uid` int(11) NOT NULL,
   `password` varchar(1000) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
@@ -384,10 +330,10 @@ CREATE TABLE `savsoft_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `savsoft_users`
+-- Dumping data for table `users`
 --
 
-INSERT INTO `savsoft_users` (`uid`, `password`, `email`, `student_code`, `first_name`, `last_name`, `contact_no`, `connection_key`, `gid`, `su`, `subscription_expired`, `verify_code`, `wp_user`, `registered_date`, `photo`, `user_status`, `web_token`, `android_token`) VALUES
+INSERT INTO `users` (`uid`, `password`, `email`, `student_code`, `first_name`, `last_name`, `contact_no`, `connection_key`, `gid`, `su`, `subscription_expired`, `verify_code`, `wp_user`, `registered_date`, `photo`, `user_status`, `web_token`, `android_token`) VALUES
 (1, '21232f297a57a5a743894a0e4a801fc3', 'admin@example.com', '0', 'Admin', 'Admin', '1234567890', NULL, 1, 1, 1776290400, 0, '', '2017-04-20 11:22:38', NULL, 'Active', 'dnwIpQWkxyA:APA91bFZLhdxZnPcNareTyHnJRikJGqaT7qh9DF4jSmyKSOq1rv6k7uwgmaQ4_K7jT3WNNUeKRdRQYsNf_OZaQZ7i5nKI_CjA6QGPwPsL5_D7ShPTtsuIwTkr0CuGx0RS7oAVNg_bImc', NULL),
 (5, 'e10adc3949ba59abbe56e057f20f883e', 'user@example.com', '0', 'User', 'User', '1234567890', '123', 1, 0, 2122569000, 0, '', '2017-04-20 11:22:38', NULL, 'Active', NULL, NULL);
 
@@ -420,75 +366,75 @@ ALTER TABLE `live_class`
   ADD PRIMARY KEY (`class_id`);
 
 --
--- Indexes for table `savsoft_answers`
+-- Indexes for table `answers`
 --
-ALTER TABLE `savsoft_answers`
+ALTER TABLE `answers`
   ADD PRIMARY KEY (`aid`);
 
 --
--- Indexes for table `savsoft_category`
+-- Indexes for table `category`
 --
-ALTER TABLE `savsoft_category`
+ALTER TABLE `category`
   ADD PRIMARY KEY (`cid`);
 
 --
--- Indexes for table `savsoft_group`
+-- Indexes for table `group`
 --
-ALTER TABLE `savsoft_group`
+ALTER TABLE `group`
   ADD PRIMARY KEY (`gid`);
 
 --
--- Indexes for table `savsoft_level`
+-- Indexes for table `level`
 --
-ALTER TABLE `savsoft_level`
+ALTER TABLE `level`
   ADD PRIMARY KEY (`lid`);
 
 --
--- Indexes for table `savsoft_notification`
+-- Indexes for table `notification`
 --
-ALTER TABLE `savsoft_notification`
+ALTER TABLE `notification`
   ADD PRIMARY KEY (`nid`);
 
 --
--- Indexes for table `savsoft_options`
+-- Indexes for table `options`
 --
-ALTER TABLE `savsoft_options`
+ALTER TABLE `options`
   ADD PRIMARY KEY (`oid`);
 
 --
--- Indexes for table `savsoft_payment`
+-- Indexes for table `payment`
 --
-ALTER TABLE `savsoft_payment`
+ALTER TABLE `payment`
   ADD PRIMARY KEY (`pid`);
 
 --
--- Indexes for table `savsoft_qbank`
+-- Indexes for table `qbank`
 --
-ALTER TABLE `savsoft_qbank`
+ALTER TABLE `qbank`
   ADD PRIMARY KEY (`qid`);
 
 --
--- Indexes for table `savsoft_qcl`
+-- Indexes for table `qcl`
 --
-ALTER TABLE `savsoft_qcl`
+ALTER TABLE `qcl`
   ADD PRIMARY KEY (`qcl_id`);
 
 --
--- Indexes for table `savsoft_quiz`
+-- Indexes for table `quiz`
 --
-ALTER TABLE `savsoft_quiz`
+ALTER TABLE `quiz`
   ADD PRIMARY KEY (`quid`);
 
 --
--- Indexes for table `savsoft_result`
+-- Indexes for table `result`
 --
-ALTER TABLE `savsoft_result`
+ALTER TABLE `result`
   ADD PRIMARY KEY (`rid`);
 
 --
--- Indexes for table `savsoft_users`
+-- Indexes for table `users`
 --
-ALTER TABLE `savsoft_users`
+ALTER TABLE `users`
   ADD PRIMARY KEY (`uid`);
 
 --
@@ -511,64 +457,64 @@ ALTER TABLE `class_gid`
 ALTER TABLE `live_class`
   MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `savsoft_answers`
+-- AUTO_INCREMENT for table `answers`
 --
-ALTER TABLE `savsoft_answers`
+ALTER TABLE `answers`
   MODIFY `aid` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `savsoft_category`
+-- AUTO_INCREMENT for table `category`
 --
-ALTER TABLE `savsoft_category`
+ALTER TABLE `category`
   MODIFY `cid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT for table `savsoft_group`
+-- AUTO_INCREMENT for table `group`
 --
-ALTER TABLE `savsoft_group`
+ALTER TABLE `group`
   MODIFY `gid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
--- AUTO_INCREMENT for table `savsoft_level`
+-- AUTO_INCREMENT for table `level`
 --
-ALTER TABLE `savsoft_level`
+ALTER TABLE `level`
   MODIFY `lid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT for table `savsoft_notification`
+-- AUTO_INCREMENT for table `notification`
 --
-ALTER TABLE `savsoft_notification`
+ALTER TABLE `notification`
   MODIFY `nid` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `savsoft_options`
+-- AUTO_INCREMENT for table `options`
 --
-ALTER TABLE `savsoft_options`
+ALTER TABLE `options`
   MODIFY `oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 --
--- AUTO_INCREMENT for table `savsoft_payment`
+-- AUTO_INCREMENT for table `payment`
 --
-ALTER TABLE `savsoft_payment`
+ALTER TABLE `payment`
   MODIFY `pid` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `savsoft_qbank`
+-- AUTO_INCREMENT for table `qbank`
 --
-ALTER TABLE `savsoft_qbank`
+ALTER TABLE `qbank`
   MODIFY `qid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
--- AUTO_INCREMENT for table `savsoft_qcl`
+-- AUTO_INCREMENT for table `qcl`
 --
-ALTER TABLE `savsoft_qcl`
+ALTER TABLE `qcl`
   MODIFY `qcl_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 --
--- AUTO_INCREMENT for table `savsoft_quiz`
+-- AUTO_INCREMENT for table `quiz`
 --
-ALTER TABLE `savsoft_quiz`
+ALTER TABLE `quiz`
   MODIFY `quid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT for table `savsoft_result`
+-- AUTO_INCREMENT for table `result`
 --
-ALTER TABLE `savsoft_result`
+ALTER TABLE `result`
   MODIFY `rid` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `savsoft_users`
+-- AUTO_INCREMENT for table `users`
 --
-ALTER TABLE `savsoft_users`
+ALTER TABLE `users`
   MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -258,8 +258,8 @@ class Login extends CI_Controller {
 		
 		 $this->load->helper('url');
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules('email', 'Email', 'required|is_unique[savsoft_users.email]');
-		$this->form_validation->set_rules('studentCode', 'Student Code', 'required|is_unique[savsoft_users.student_code]');
+		$this->form_validation->set_rules('email', 'Email', 'required|is_unique[users.email]');
+		$this->form_validation->set_rules('studentCode', 'Student Code', 'required|is_unique[users.student_code]');
         $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]|alpha_numeric');
           if ($this->form_validation->run() == FALSE)
                 {
@@ -328,9 +328,9 @@ class Login extends CI_Controller {
                       $status = false;
                     } else {
                     
-                    // if username already exist in savsoft_users
+                    // if username already exist in users
                     $this->db->where('wp_user',$user);
-                    $query=$this->db->get('savsoft_users');
+                    $query=$this->db->get('users');
                     if($query->num_rows()==0){
                     $userdata=array(
                     'password'=>md5($pass),
@@ -339,7 +339,7 @@ class Login extends CI_Controller {
                     'gid'=>$this->config->item('default_group')                  
                     
                     );
-                    $this->db->insert('savsoft_users',$userdata);
+                    $this->db->insert('users',$userdata);
                     
                     }
                     

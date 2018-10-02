@@ -68,8 +68,8 @@ class User extends CI_Controller {
 				exit($this->lang->line('permission_denied'));
 			}
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules('email', 'Email', 'required|is_unique[savsoft_users.email]');
-        $this->form_validation->set_rules('studentCode', 'Student Code', 'required|is_unique[savsoft_users.student_code]');
+		$this->form_validation->set_rules('email', 'Email', 'required|is_unique[users.email]');
+        $this->form_validation->set_rules('studentCode', 'Student Code', 'required|is_unique[users.student_code]');
         $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]|alpha_numeric');
           if ($this->form_validation->run() == FALSE)
                 {
@@ -253,7 +253,7 @@ class User extends CI_Controller {
 			);
 			
 			$this->db->where('uid',$uid);
-			$this->db->update('savsoft_users',$userdata);
+			$this->db->update('users',$userdata);
 			 $this->session->set_flashdata('message', "<div class='alert alert-success'>".$this->lang->line('group_updated_successfully')." </div>");
 			redirect('user/edit_user/'.$logged_in['uid']);
         
@@ -338,7 +338,7 @@ class User extends CI_Controller {
 	
 			public function remove_group($gid){
                         $mgid=$this->input->post('mgid');
-                        $this->db->query(" update savsoft_users set gid='$mgid' where gid='$gid' ");
+                        $this->db->query(" update users set gid='$mgid' where gid='$gid' ");
                         
 			$logged_in=$this->session->userdata('logged_in');
 			if($logged_in['su']!='1'){

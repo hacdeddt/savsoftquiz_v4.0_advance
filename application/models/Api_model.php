@@ -21,7 +21,7 @@ Class Api_model extends CI_Model
 	 }
 		//$this->db->limit($this->config->item('number_of_rows'),$limit);
 		$this->db->order_by('quid','desc');
-		$query=$this->db->get('savsoft_quiz');
+		$query=$this->db->get('quiz');
 		return $query->result_array();
 		
 	 
@@ -40,7 +40,7 @@ function no_quiz($user){
 	 
 		//$this->db->limit($this->config->item('number_of_rows'),$limit);
 		$this->db->order_by('quid','desc');
-		$query=$this->db->get('savsoft_quiz');
+		$query=$this->db->get('quiz');
 		return $query->num_rows();
 		
 	 
@@ -51,21 +51,21 @@ function no_quiz($user){
 
 function no_attempted($user){
 $uid=$user['uid'];
- $query=$this->db->query("select * from savsoft_result where uid='$uid' group by quid");
+ $query=$this->db->query("select * from result where uid='$uid' group by quid");
 return $query->num_rows();						
 
 }
 
 function no_pass($user){
 $uid=$user['uid'];
- $query=$this->db->query("select * from savsoft_result where uid='$uid' and result_status='Pass' group by quid");
+ $query=$this->db->query("select * from result where uid='$uid' and result_status='Pass' group by quid");
 return $query->num_rows();						
 
 }
 
 function no_fail($user){
 $uid=$user['uid'];
- $query=$this->db->query("select * from savsoft_result where uid='$uid' and result_status='Fail' group by quid");
+ $query=$this->db->query("select * from result where uid='$uid' and result_status='Fail' group by quid");
 return $query->num_rows();						
 
 }
@@ -81,31 +81,31 @@ return $query->num_rows();
 		
 	if($this->input->post('search')){
 		 $search=$this->input->post('search');
-		 $this->db->or_where('savsoft_users.email',$search);
-		 $this->db->or_where('savsoft_users.first_name',$search);
-		 $this->db->or_where('savsoft_users.last_name',$search);
-		 $this->db->or_where('savsoft_users.contact_no',$search);
-		 $this->db->or_where('savsoft_result.rid',$search);
-		 $this->db->or_where('savsoft_quiz.quiz_name',$search);
+		 $this->db->or_where('users.email',$search);
+		 $this->db->or_where('users.first_name',$search);
+		 $this->db->or_where('users.last_name',$search);
+		 $this->db->or_where('users.contact_no',$search);
+		 $this->db->or_where('result.rid',$search);
+		 $this->db->or_where('quiz.quiz_name',$search);
  
 	 }else{
-		 $this->db->where('savsoft_result.result_status !=',$result_open);
+		 $this->db->where('result.result_status !=',$result_open);
 	 }
 	 	if($logged_in['su']=='0'){
-			$this->db->where('savsoft_result.uid',$uid);
+			$this->db->where('result.uid',$uid);
 		}
 		
 	 	if($status !='0'){
-			$this->db->where('savsoft_result.result_status',$status);
+			$this->db->where('result.result_status',$status);
 		}
 		
 		
 		
 		$this->db->limit($this->config->item('number_of_rows'),$limit);
 		$this->db->order_by('rid','desc');
-		$this->db->join('savsoft_users','savsoft_users.uid=savsoft_result.uid');
-		$this->db->join('savsoft_quiz','savsoft_quiz.quid=savsoft_result.quid');
-		$query=$this->db->get('savsoft_result');
+		$this->db->join('users','users.uid=result.uid');
+		$this->db->join('quiz','quiz.quid=result.quid');
+		$query=$this->db->get('result');
 		return $query->result_array();
 		
 	 
@@ -117,11 +117,11 @@ function get_notification($user,$limit){
 	$uid=$logged_in['uid'];
 	  
  $this->db->select('title,message,notification_date');
- 	$this->db->or_where('savsoft_notification.uid',$uid);
-	$this->db->or_where('savsoft_notification.uid','0');
+ 	$this->db->or_where('notification.uid',$uid);
+	$this->db->or_where('notification.uid','0');
 	 	//$this->db->limit($this->config->item('number_of_rows'),$limit);
 		$this->db->order_by('nid','desc');
-		$query=$this->db->get('savsoft_notification');
+		$query=$this->db->get('notification');
 		return $query->result_array();
 
  }
@@ -135,7 +135,7 @@ function get_notification($user,$limit){
 	 $logged_in=$user;
 	 $email=$logged_in['email'];
 	 
-	$query=$this->db->query("select * from savsoft_result join savsoft_quiz on savsoft_result.quid=savsoft_quiz.quid where savsoft_result.rid='$rid' "); 
+	$query=$this->db->query("select * from result join quiz on result.quid=quiz.quid where result.rid='$rid' "); 
 	$quiz=$query->row_array(); 
 	$score_ind=explode(',',$quiz['score_individual']);
 	$r_qids=explode(',',$quiz['r_qids']);
@@ -183,7 +183,7 @@ function get_notification($user,$limit){
 		$userdata['result_status']=$qr;
 	}
 	 $this->db->where('rid',$rid);
-	 $this->db->update('savsoft_result',$userdata);
+	 $this->db->update('result',$userdata);
 	 
 	 
 	 foreach($qids_perf as $qp => $qpval){
@@ -195,14 +195,14 @@ function get_notification($user,$limit){
 		 }else if($qpval=='2'){
 			$crin=", no_time_incorrected=(no_time_incorrected +1)"; 	 
 		 }
-		  $query_qp="update savsoft_qbank set no_time_served=(no_time_served +1)  $crin  where qid='$qp'  ";
+		  $query_qp="update qbank set no_time_served=(no_time_served +1)  $crin  where qid='$qp'  ";
 	 $this->db->query($query_qp);
 		 
 	 }
 	 
 if($this->config->item('allow_result_email')){
 	$this->load->library('email');
-	$query = $this -> db -> query("select savsoft_result.*,savsoft_users.*,savsoft_quiz.* from savsoft_result, savsoft_users, savsoft_quiz where savsoft_users.uid=savsoft_result.uid and savsoft_quiz.quid=savsoft_result.quid and savsoft_result.rid='$rid'");
+	$query = $this -> db -> query("select result.*,users.*,quiz.* from result, users, quiz where users.uid=result.uid and quiz.quid=result.quid and result.rid='$rid'");
 	$qrr=$query->row_array();
   		if($this->config->item('protocol')=="smtp"){
 			$config['protocol'] = 'smtp';
@@ -265,7 +265,7 @@ if($this->config->item('allow_result_email')){
 	 
 	 );
 	 $this->db->where('rid',$rid);
-	 $this->db->update('savsoft_result',$userdata);
+	 $this->db->update('result',$userdata);
 	 
 	 return true;
  }
@@ -275,7 +275,7 @@ if($this->config->item('allow_result_email')){
 	$logged_in=$user;
 	$uid=$logged_in['uid'];
 	
-	$query=$this->db->query("select * from savsoft_result join savsoft_quiz on savsoft_result.quid=savsoft_quiz.quid where savsoft_result.rid='$rid' "); 
+	$query=$this->db->query("select * from result join quiz on result.quid=quiz.quid where result.rid='$rid' "); 
 	$quiz=$query->row_array(); 
 	$correct_score=$quiz['correct_score'];
 	$incorrect_score=$quiz['incorrect_score'];
@@ -286,7 +286,7 @@ if($this->config->item('allow_result_email')){
 	
 	// remove existing answers
 	$this->db->where('rid',$rid);
-	$this->db->delete('savsoft_answers');
+	$this->db->delete('answers');
 	
 	 foreach($_POST['answer'] as $ak => $answer){
 		 
@@ -294,7 +294,7 @@ if($this->config->item('allow_result_email')){
 		 if($_POST['question_type'][$ak] == '1' || $_POST['question_type'][$ak] == '2'){
 			 
 			 $qid=$qids[$ak];
-			 $query=$this->db->query(" select * from savsoft_options where qid='$qid' ");
+			 $query=$this->db->query(" select * from options where qid='$qid' ");
 			 $options_data=$query->result_array();
 			 $options=array();
 			 foreach($options_data as $ok => $option){
@@ -315,7 +315,7 @@ if($this->config->item('allow_result_email')){
 					'q_option'=>$ansval,
 					'score_u'=>$options[$ansval]
 					);
-					$this->db->insert('savsoft_answers',$userdata);
+					$this->db->insert('answers',$userdata);
 				$attempted=1;	
 				}
 				if($attempted==1){
@@ -332,7 +332,7 @@ if($this->config->item('allow_result_email')){
 		 if($_POST['question_type'][$ak] == '3'){
 			 
 			 $qid=$qids[$ak];
-			 $query=$this->db->query(" select * from savsoft_options where qid='$qid' ");
+			 $query=$this->db->query(" select * from options where qid='$qid' ");
 			 $options_data=$query->row_array();
 			 $options_data=explode(',',$options_data['q_option']);
 			 $noptions=array();
@@ -359,7 +359,7 @@ if($this->config->item('allow_result_email')){
 					'q_option'=>$ansval,
 					'score_u'=>$marks
 					);
-					$this->db->insert('savsoft_answers',$userdata);
+					$this->db->insert('answers',$userdata);
 
 				}
 				}
@@ -388,7 +388,7 @@ if($this->config->item('allow_result_email')){
 					'q_option'=>$ansval,
 					'score_u'=>0
 					);
-					$this->db->insert('savsoft_answers',$userdata);
+					$this->db->insert('answers',$userdata);
 					$attempted=1;
 					}
 					}
@@ -404,7 +404,7 @@ if($this->config->item('allow_result_email')){
 		 // match
 			 if($_POST['question_type'][$ak] == '5'){
 				 			 $qid=$qids[$ak];
-			 $query=$this->db->query(" select * from savsoft_options where qid='$qid' ");
+			 $query=$this->db->query(" select * from options where qid='$qid' ");
 			 $options_data=$query->result_array();
 			$noptions=array();
 			foreach($options_data as $op => $option){
@@ -429,7 +429,7 @@ if($this->config->item('allow_result_email')){
 					'q_option'=>$ansval,
 					'score_u'=>$mc
 					);
-					$this->db->insert('savsoft_answers',$userdata);
+					$this->db->insert('answers',$userdata);
 					$attempted=1;
 					}
 					}
@@ -459,7 +459,7 @@ if($this->config->item('allow_result_email')){
 	 
 	 );
 	 $this->db->where('rid',$rid);
-	 $this->db->update('savsoft_result',$userdata);
+	 $this->db->update('result',$userdata);
 	 
 	 return true;
 	 
@@ -482,7 +482,7 @@ function register($email,$first_name,$last_name,$password,$contact_no,$gid){
 			$userdata['verify_code']=$veri_code;
 		 }
  
-		if($this->db->insert('savsoft_users',$userdata)){
+		if($this->db->insert('users',$userdata)){
 			 if($this->config->item('verify_email')){
 				 // send verification link in email
 				 
@@ -538,7 +538,7 @@ $verilink=site_url('login/verify/'.$veri_code);
 
 function reset_password($toemail){
 $this->db->where("email",$toemail);
-$queryr=$this->db->get('savsoft_users');
+$queryr=$this->db->get('users');
 if($queryr->num_rows() != "1"){
 return false;
 }
@@ -580,7 +580,7 @@ $new_password=rand('1111','9999');
 			'password'=>md5($new_password)
 			);
 			$this->db->where('email', $toemail);
- 			$this->db->update('savsoft_users',$user_detail);
+ 			$this->db->update('users',$user_detail);
 			return true;
 			}
 

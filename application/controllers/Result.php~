@@ -168,13 +168,13 @@ class Result extends CI_Controller {
 	  $uid=$data['result']['uid'];
 	  $quid=$data['result']['quid'];
 	  $score=$data['result']['score_obtained'];
-	  $query=$this->db->query(" select * from savsoft_result where score_obtained > '$score' and quid ='$quid' group by score_obtained ");
+	  $query=$this->db->query(" select * from result where score_obtained > '$score' and quid ='$quid' group by score_obtained ");
 	  $data['rank']=$query->num_rows() + 1;
-	  $query=$this->db->query(" select * from savsoft_result where quid ='$quid'  group by score_obtained  ");
+	  $query=$this->db->query(" select * from result where quid ='$quid'  group by score_obtained  ");
 	  $data['last_rank']=$query->num_rows();
-	  $query=$this->db->query(" select * from savsoft_result where quid ='$quid'  group by score_obtained  order by score_obtained desc limit 3 ");
+	  $query=$this->db->query(" select * from result where quid ='$quid'  group by score_obtained  order by score_obtained desc limit 3 ");
 	  $data['toppers']=$query->result_array();
-	  $query=$this->db->query(" select * from savsoft_result where quid ='$quid'  group by score_obtained  order by score_obtained asc limit 1 ");
+	  $query=$this->db->query(" select * from result where quid ='$quid'  group by score_obtained  order by score_obtained asc limit 1 ");
 	  $data['looser']=$query->row_array();
 	
 		$this->load->view('header',$data);

@@ -59,7 +59,7 @@
 			<br><br>
 			<?php 
 			}else{
-			$nq=$this->db->query("select * from savsoft_users where uid='$tuid'");
+			$nq=$this->db->query("select * from users where uid='$tuid'");
 			$nuser=$nq->row_array();
 			
 			?>
